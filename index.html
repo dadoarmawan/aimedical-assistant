@@ -3,85 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Transkripsi & Analisis Anamnesis Medis</title>
+    <title>Anamnesis AI - Klinik OMSA Medic Dewata</title>
+    
+    <!-- Load Tailwind CSS for structural layout -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts: Roboto & Material Symbols Outlined -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
     <style>
+        :root {
+            /* Material 3 Color Scheme - Medical Teal/Cyan Theme */
+            --md-sys-color-primary: #006874;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #97f0ff;
+            --md-sys-color-on-primary-container: #001f24;
+            
+            --md-sys-color-secondary: #4a6267;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-secondary-container: #cce8e0; /* adjusted for medical feel */
+            --md-sys-color-on-secondary-container: #051f23;
+            
+            --md-sys-color-error: #ba1a1a;
+            --md-sys-color-error-container: #ffdad6;
+            --md-sys-color-on-error-container: #410002;
+            
+            --md-sys-color-background: #fafdfd;
+            --md-sys-color-on-background: #191c1d;
+            --md-sys-color-surface: #fafdfd;
+            --md-sys-color-on-surface: #191c1d;
+            
+            --md-sys-color-surface-container-low: #f4f8f8;
+            --md-sys-color-surface-container: #eff5f5;
+            --md-sys-color-surface-container-high: #e9efef;
+            
+            --md-sys-color-outline: #6f797a;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Soft blue-gray medical background */
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            margin: 0;
+            -webkit-tap-highlight-color: transparent;
         }
-        .recording-pulse {
-            animation: pulse 1.5s infinite;
+
+        /* Material Symbols setup */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+
+        /* M3 Typography & Components */
+        .m3-card {
+            background-color: var(--md-sys-color-surface-container);
+            border-radius: 24px;
+            padding: 24px;
+            transition: box-shadow 0.2s ease-in-out;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        /* Markdown styles for AI response */
-        .prose strong { font-weight: 600; color: #1e3a8a; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-        .prose p { margin-bottom: 0.75rem; }
+        
+        .m3-input {
+            background-color: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 8px; /* Classic MD style inputs often have smaller radii or underline, but we use modern rounded */
+            padding: 16px;
+            color: var(--md-sys-color-on-surface);
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .m3-input:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+        }
+
+        /* FAB (Floating Action Button) Extended */
+        .m3-fab-extended {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+        .m3-fab-extended:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+        }
+        .m3-fab-extended.recording {
+            background-color: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+            animation: pulse-fab 2s infinite;
+        }
+
+        /* Standard Buttons */
+        .m3-btn-filled {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border-radius: 100px;
+            padding: 10px 24px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        .m3-btn-filled:hover {
+            background-color: #005862; /* Slightly darker */
+        }
+        
+        .m3-btn-tonal {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            border-radius: 100px;
+            padding: 10px 24px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+        .m3-btn-tonal:hover {
+            opacity: 0.85;
+        }
+
+        /* Snackbar */
+        #snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #323232;
+            color: #f1f1f1;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        #snackbar.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* Keyframes */
+        @keyframes pulse-fab {
+            0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(186, 26, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+
+        /* Markdown Styles */
+        .markdown-body h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1rem; color: var(--md-sys-color-primary); }
+        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.6; }
+        .markdown-body ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body strong { font-weight: 700; }
     </style>
 </head>
-<body class="text-slate-800 antialiased p-4 md:p-8 min-h-screen">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="max-w-3xl mx-auto space-y-6">
         
-        <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-blue-900 flex items-center justify-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-                Asisten Anamnesis Medis AI
-            </h1>
-            <p class="text-slate-500 mt-2">Transkripsi suara real-time & Analisis Diagnosis</p>
+        <!-- Header -->
+        <header class="text-center py-4">
+            <div class="inline-flex items-center justify-center gap-3 mb-2 text-[var(--md-sys-color-primary)]">
+                <span class="material-symbols-outlined text-4xl">stethoscope</span>
+                <h1 class="text-2xl md:text-3xl font-bold">Anamnesis AI</h1>
+            </div>
+            <p class="text-[var(--md-sys-color-outline)] font-medium">Klinik OMSA Medic Dewata</p>
         </header>
 
-        <!-- Pesan Notifikasi -->
-        <div id="notificationArea" class="hidden rounded-md p-4 mb-4 transition-all">
-            <p id="notificationText" class="text-sm font-medium"></p>
-        </div>
-
-        <!-- Alert Khusus Mikrofon -->
-        <div id="micAlert" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 shadow-sm">
-            <div class="flex items-start">
-                <div class="flex-shrink-0 mt-0.5">
-                    <svg class="h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                    </svg>
+        <!-- API Key Settings (Collapsible) -->
+        <details class="m3-card group cursor-pointer" open>
+            <summary class="font-medium flex items-center justify-between text-[var(--md-sys-color-on-surface)] list-none outline-none">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined">settings</span>
+                    Pengaturan API Key Gemini
                 </div>
-                <div class="ml-3 w-full">
-                    <h3 class="text-sm font-semibold text-yellow-800">Akses Mikrofon Ditolak / Diblokir</h3>
-                    <div class="mt-2 text-sm text-yellow-700">
-                        <p>Browser atau sistem Anda saat ini memblokir akses mikrofon. Cara mengatasinya:</p>
-                        <ul class="list-disc pl-5 mt-1 space-y-1">
-                            <li>Klik ikon <strong>gembok (🔒)</strong> di sebelah kiri URL bar browser Anda.</li>
-                            <li>Pastikan izin <strong>Mikrofon (Microphone)</strong> diatur ke <strong>Izinkan (Allow)</strong>, lalu refresh halaman.</li>
-                            <li><strong>Catatan:</strong> Jika Anda menjalankan ini di dalam mode <em>Preview (iFrame)</em>, fitur mikrofon mungkin dibatasi oleh sistem. Anda tetap dapat <strong>mengetik secara manual</strong> di dalam kotak teks di bawah.</li>
-                        </ul>
-                    </div>
-                    <button id="btnCloseAlert" class="mt-3 text-xs font-medium text-yellow-800 bg-yellow-100 hover:bg-yellow-200 px-3 py-1 rounded transition-colors">Tutup Info</button>
-                </div>
+                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-[var(--md-sys-color-outline)]/20 cursor-default">
+                <p class="text-sm text-[var(--md-sys-color-outline)] mb-3">Masukkan API Key Anda jika menjalankan aplikasi ini di GitHub Pages / Local.</p>
+                <input type="password" id="apiKeyInput" placeholder="Paste API Key Gemini Anda di sini..." class="m3-input mb-2">
             </div>
-        </div>
+        </details>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h2 class="text-lg font-semibold text-slate-800 mb-4 border-b pb-2">Identitas Pasien</h2>
+        <div class="m3-card">
+            <h2 class="text-lg font-medium mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">person</span>
+                Identitas Pasien
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label for="usia" class="block text-sm font-medium text-slate-700 mb-1">Usia (Tahun)</label>
-                    <input type="number" id="usia" min="0" placeholder="Contoh: 45" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Usia (Tahun)</label>
+                    <input type="number" id="usia" placeholder="Misal: 45" class="m3-input">
                 </div>
                 <div>
-                    <label for="bb" class="block text-sm font-medium text-slate-700 mb-1">Berat Badan (Kg)</label>
-                    <input type="number" id="bb" min="0" placeholder="Contoh: 65" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Berat Badan (Kg)</label>
+                    <input type="number" id="bb" placeholder="Misal: 65" class="m3-input">
                 </div>
                 <div>
-                    <label for="jenisKelamin" class="block text-sm font-medium text-slate-700 mb-1">Jenis Kelamin</label>
-                    <select id="jenisKelamin" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
-                        <option value="" disabled selected>Pilih jenis kelamin</option>
+                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Jenis Kelamin</label>
+                    <select id="jenisKelamin" class="m3-input appearance-none">
+                        <option value="" disabled selected>Pilih...</option>
                         <option value="Laki-laki">Laki-laki</option>
                         <option value="Perempuan">Perempuan</option>
                     </select>
@@ -89,69 +228,71 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-                <h2 class="text-lg font-semibold text-slate-800">Transkripsi Anamnesis</h2>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <button id="btnRecord" class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
+        <div class="m3-card">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h2 class="text-lg font-medium flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">mic</span>
+                    Transkripsi Suara (Tanpa Duplikat)
+                </h2>
+                
+                <!-- Transcription Controls -->
+                <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3">
+                    <button id="btnCopy" class="m3-btn-tonal w-full sm:w-auto">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+                        Copy Teks
+                    </button>
+                    <!-- Extended FAB for Recording -->
+                    <button id="btnRecord" class="m3-fab-extended w-full sm:w-auto">
+                        <span id="micIcon" class="material-symbols-outlined">mic</span>
                         <span id="recordText">Mulai Rekam</span>
                     </button>
-                    <button id="btnCopy" class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-medium transition-all border border-slate-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                        Copy
-                    </button>
                 </div>
             </div>
-            
-            <div class="relative">
-                <textarea id="anamnesisText" rows="6" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-y text-slate-700 leading-relaxed" placeholder="Hasil transkripsi suara akan muncul di sini... Anda juga bisa mengetik manual."></textarea>
-                <div id="recordingIndicator" class="hidden absolute top-3 right-3 flex items-center gap-2 text-red-500 text-sm font-medium bg-red-50 px-2 py-1 rounded-full border border-red-200">
-                    <div class="w-2 h-2 rounded-full bg-red-500 recording-pulse"></div>
-                    Merekam...
-                </div>
-            </div>
+
+            <textarea id="anamnesisText" rows="6" class="m3-input resize-y" placeholder="Ketuk 'Mulai Rekam' dan mulai berbicara. Hasil transkripsi akan muncul di sini tanpa teks ganda. Anda juga dapat mengetik atau mengedit manual."></textarea>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h2 class="text-lg font-semibold text-slate-800 mb-4">Analisis AI (Diagnosis & Tatalaksana)</h2>
-            <button id="btnAnalyze" class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-sm mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+        <div class="m3-card">
+            <h2 class="text-lg font-medium mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">psychiatry</span>
+                Analisis Medis AI
+            </h2>
+            
+            <button id="btnAnalyze" class="m3-btn-filled w-full justify-center py-3 text-base">
+                <span class="material-symbols-outlined">analytics</span>
                 Analisis Diagnosis & Tatalaksana
             </button>
-            
-            <!-- Loading State -->
+
+            <!-- Loading Indicator -->
             <div id="loadingAi" class="hidden flex-col items-center justify-center py-8">
-                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600 mb-3"></div>
-                <p class="text-slate-500 text-sm animate-pulse">Sedang memproses analisis medis...</p>
+                <span class="material-symbols-outlined animate-spin text-4xl text-[var(--md-sys-color-primary)] mb-3">autorenew</span>
+                <p class="text-[var(--md-sys-color-outline)] animate-pulse">AI sedang menganalisis data klinis...</p>
             </div>
 
-            <!-- Result Area -->
-            <div id="aiResultArea" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-5">
-                <div class="prose max-w-none text-slate-700 text-sm sm:text-base leading-relaxed" id="aiResultContent">
-                    <!-- Hasil AI akan di-render di sini -->
+            <!-- Result Box -->
+            <div id="aiResultArea" class="hidden mt-6 bg-[var(--md-sys-color-surface)] border border-[var(--md-sys-color-outline)]/30 rounded-2xl p-5">
+                <div class="markdown-body text-[var(--md-sys-color-on-surface)]" id="aiResultContent">
+                    <!-- AI result injects here -->
                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- Snackbar Component -->
+    <div id="snackbar">Pesan notifikasi</div>
+
     <script>
-        // DOM Elements
+        // UI Elements
         const usiaInput = document.getElementById('usia');
         const bbInput = document.getElementById('bb');
         const jkInput = document.getElementById('jenisKelamin');
+        const anamnesisText = document.getElementById('anamnesisText');
+        const apiKeyInput = document.getElementById('apiKeyInput');
         
         const btnRecord = document.getElementById('btnRecord');
+        const micIcon = document.getElementById('micIcon');
         const recordText = document.getElementById('recordText');
-        const recordingIndicator = document.getElementById('recordingIndicator');
-        const anamnesisText = document.getElementById('anamnesisText');
         const btnCopy = document.getElementById('btnCopy');
         
         const btnAnalyze = document.getElementById('btnAnalyze');
@@ -159,271 +300,226 @@
         const aiResultArea = document.getElementById('aiResultArea');
         const aiResultContent = document.getElementById('aiResultContent');
 
-        const notificationArea = document.getElementById('notificationArea');
-        const notificationText = document.getElementById('notificationText');
-
         // State variables
         let isRecording = false;
         let recognition = null;
-        let finalTranscript = '';
 
-        // Tutup Alert Mikrofon
-        document.getElementById('btnCloseAlert').addEventListener('click', () => {
-            document.getElementById('micAlert').classList.add('hidden');
-        });
-
-        // Helper: Show Notification
-        function showNotification(message, type = 'info') {
-            notificationText.textContent = message;
-            notificationArea.className = `rounded-md p-4 mb-4 transition-all ${
-                type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 
-                type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 
-                'bg-blue-50 text-blue-700 border border-blue-200'
-            }`;
-            notificationArea.classList.remove('hidden');
-            setTimeout(() => {
-                notificationArea.classList.add('hidden');
-            }, 5000);
+        // Custom Snackbar Function
+        function showSnackbar(message) {
+            const snackbar = document.getElementById("snackbar");
+            snackbar.textContent = message;
+            snackbar.className = "show";
+            setTimeout(() => { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
         }
 
         function initSpeechRecognition() {
-            // Check browser compatibility
             window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             
             if (!window.SpeechRecognition) {
-                showNotification("Browser Anda tidak mendukung Web Speech API. Gunakan Chrome atau Edge terbaru.", "error");
+                showSnackbar("Browser tidak mendukung perekaman suara (Gunakan Chrome).");
                 btnRecord.disabled = true;
-                btnRecord.classList.add('opacity-50', 'cursor-not-allowed');
+                btnRecord.style.opacity = '0.5';
                 return false;
             }
 
             recognition = new window.SpeechRecognition();
-            recognition.continuous = true; // Terus merekam
-            recognition.interimResults = true; // Tampilkan hasil sementara
-            recognition.lang = 'id-ID'; // Bahasa Indonesia
+            recognition.lang = 'id-ID';
+            recognition.continuous = true;
+            // CRITICAL FIX: Disable interim results to prevent duplicate typing on Android
+            recognition.interimResults = false; 
 
             recognition.onstart = function() {
                 isRecording = true;
-                btnRecord.classList.replace('bg-blue-600', 'bg-red-600');
-                btnRecord.classList.replace('hover:bg-blue-700', 'hover:bg-red-700');
+                btnRecord.classList.add('recording');
+                micIcon.textContent = 'stop_circle';
                 recordText.textContent = "Hentikan Rekaman";
-                recordingIndicator.classList.remove('hidden');
-                
-                // Save current text so we append to it
-                finalTranscript = anamnesisText.value;
-                if(finalTranscript.length > 0 && !finalTranscript.endsWith(' ')) {
-                    finalTranscript += ' ';
-                }
             };
 
             recognition.onresult = function(event) {
-                let interimTranscript = '';
+                // Since interimResults is false, every result here is final.
+                // We just get the latest recognized phrase and append it.
+                const currentResultIndex = event.resultIndex;
+                const transcript = event.results[currentResultIndex][0].transcript.trim();
                 
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript + '. ';
+                if (transcript) {
+                    let currentText = anamnesisText.value.trim();
+                    // Append with proper spacing and period if needed
+                    if (currentText.length > 0 && !currentText.endsWith('.')) {
+                        anamnesisText.value = currentText + '. ' + transcript.charAt(0).toUpperCase() + transcript.slice(1);
+                    } else if (currentText.length > 0) {
+                        anamnesisText.value = currentText + ' ' + transcript.charAt(0).toUpperCase() + transcript.slice(1);
                     } else {
-                        interimTranscript += event.results[i][0].transcript;
+                        anamnesisText.value = transcript.charAt(0).toUpperCase() + transcript.slice(1);
                     }
+                    
+                    // Auto-scroll to bottom
+                    anamnesisText.scrollTop = anamnesisText.scrollHeight;
                 }
-                
-                anamnesisText.value = finalTranscript + interimTranscript;
-                // Scroll to bottom
-                anamnesisText.scrollTop = anamnesisText.scrollHeight;
             };
 
             recognition.onerror = function(event) {
-                console.error("Speech recognition error", event.error);
+                console.error("Mic error:", event.error);
                 if (event.error === 'not-allowed') {
-                    // Tampilkan panduan visual khusus jika mikrofon ditolak
-                    document.getElementById('micAlert').classList.remove('hidden');
-                    showNotification("Akses mikrofon ditolak. Lihat panduan di atas.", "error");
+                    showSnackbar("Akses mikrofon ditolak! Izinkan di pengaturan browser (ikon gembok).");
                 } else if (event.error !== 'no-speech') {
-                    showNotification("Terjadi kesalahan pada perekaman suara: " + event.error, "error");
+                    showSnackbar("Error mikrofon: " + event.error);
                 }
-                stopRecording();
+                stopRecordingUI();
             };
 
             recognition.onend = function() {
-                // If user didn't manually stop it (e.g., paused speaking too long), restart it
+                // If user didn't manually stop it, restart to keep continuous listening alive
                 if (isRecording) {
                     try {
                         recognition.start();
                     } catch (e) {
-                        stopRecording();
+                        stopRecordingUI();
                     }
                 } else {
-                    stopRecording();
+                    stopRecordingUI();
                 }
             };
             
             return true;
         }
 
-        function stopRecording() {
+        function stopRecordingUI() {
             isRecording = false;
-            if(recognition) recognition.stop();
-            btnRecord.classList.replace('bg-red-600', 'bg-blue-600');
-            btnRecord.classList.replace('hover:bg-red-700', 'hover:bg-blue-700');
+            btnRecord.classList.remove('recording');
+            micIcon.textContent = 'mic';
             recordText.textContent = "Mulai Rekam";
-            recordingIndicator.classList.add('hidden');
         }
 
-        // Initialize Speech Recognition on load
         const hasSpeechSupport = initSpeechRecognition();
 
-        // Event Listener: Record Button
+        // Record Button Click
         btnRecord.addEventListener('click', () => {
             if (!hasSpeechSupport) return;
             
             if (isRecording) {
-                isRecording = false; // Flag false so onend doesn't restart
+                isRecording = false; // Flag tells onend to NOT restart
                 recognition.stop();
             } else {
                 try {
                     recognition.start();
                 } catch(e) {
-                    console.error(e);
+                    console.error("Already started", e);
                 }
             }
         });
 
+        // Copy Button Click
         btnCopy.addEventListener('click', () => {
-            const textToCopy = anamnesisText.value;
-            if (!textToCopy) {
-                showNotification("Tidak ada teks untuk disalin.", "info");
+            if (!anamnesisText.value) {
+                showSnackbar("Tidak ada teks untuk disalin.");
                 return;
             }
-
-            // Fallback for iFrames and older browsers
             try {
-                // Create a temporary textarea
                 const tempTextArea = document.createElement("textarea");
-                tempTextArea.value = textToCopy;
+                tempTextArea.value = anamnesisText.value;
                 document.body.appendChild(tempTextArea);
                 tempTextArea.select();
                 document.execCommand("copy");
                 document.body.removeChild(tempTextArea);
-                showNotification("Teks berhasil disalin ke clipboard!", "success");
+                showSnackbar("Teks disalin ke clipboard!");
             } catch (err) {
-                console.error('Failed to copy text: ', err);
-                showNotification("Gagal menyalin teks.", "error");
+                showSnackbar("Gagal menyalin teks.");
             }
         });
 
-        function parseMarkdown(text) {
-            if(!text) return "";
+        function parseSimpleMarkdown(text) {
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>'); // H3
+            html = html.replace(/^## (.*$)/gim, '<h3>$1</h3>'); // Treat H2 as H3 for sizing
             
-            // Format Bold
-            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // List items
+            html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
             
-            // Format list items (starts with * or -)
-            html = html.replace(/^[\*\-] (.*)$/gm, '<li>$1</li>');
-            
-            // Wrap consecutive <li> tags in <ul>
+            // Group lists
             html = html.replace(/(<li>.*<\/li>(\n<li>.*<\/li>)*)/g, '<ul>$1</ul>');
             
-            // Line breaks to <br> for regular paragraphs
+            // Paragraphs (line breaks)
             html = html.replace(/\n\n/g, '</p><p>');
-            html = html.replace(/(?<!<\/li>)\n(?!<ul>|<\/ul>|<li>)/g, '<br>');
             
             return `<p>${html}</p>`;
         }
 
         btnAnalyze.addEventListener('click', async () => {
-            const usia = usiaInput.value;
-            const bb = bbInput.value;
-            const jk = jkInput.value;
             const anamnesis = anamnesisText.value.trim();
-
             if (!anamnesis) {
-                showNotification("Silakan rekam atau ketik hasil anamnesis terlebih dahulu.", "error");
+                showSnackbar("Rekam atau ketik anamnesis terlebih dahulu!");
                 anamnesisText.focus();
                 return;
             }
 
-            // UI Changes loading
+            // Get API Key (from input or fallback to environment canvas key)
+            let apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                apiKey = ""; // Fallback for Canvas auto-injection if empty
+            }
+
+            // UI Loading state
             btnAnalyze.disabled = true;
-            btnAnalyze.classList.add('opacity-70', 'cursor-not-allowed');
+            btnAnalyze.style.opacity = '0.7';
             loadingAi.classList.remove('hidden');
             aiResultArea.classList.add('hidden');
             
-            // API setup
-            const apiKey = ""; // API Key will be automatically injected by Canvas
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-            const systemPrompt = "Anda adalah asisten dokter yang ahli (AI Medical Assistant). Tugas Anda adalah membaca transkripsi anamnesis pasien beserta data demografisnya, kemudian memberikan analisis singkat berupa: 1. Kemungkinan Diagnosis (Diferensial Diagnosis). 2. Rencana Tatalaksana Awal (Pemeriksaan lanjutan atau tindakan/obat awal). Berikan jawaban dalam bahasa Indonesia yang terstruktur, profesional, dan gunakan poin-poin. Berikan disclaimer di akhir bahwa ini adalah saran AI dan dokter harus melakukan verifikasi.";
+            const systemPrompt = "Anda adalah AI Asisten Dokter di Klinik OMSA Medic Dewata. Tugas Anda menganalisis anamnesis pasien. Berikan respons terstruktur: 1. Ringkasan Kasus Singkat. 2. Diagnosis Banding (Diferensial Diagnosis). 3. Rencana Tatalaksana Awal (pemeriksaan/obat). Gunakan bahasa Indonesia profesional dan ramah. Beri disclaimer di akhir bahwa ini saran AI dan butuh verifikasi klinis dokter.";
             
             const userPrompt = `
 Data Pasien:
-- Usia: ${usia ? usia + ' Tahun' : 'Tidak disebutkan'}
-- Berat Badan: ${bb ? bb + ' Kg' : 'Tidak disebutkan'}
-- Jenis Kelamin: ${jk ? jk : 'Tidak disebutkan'}
+- Usia: ${usiaInput.value ? usiaInput.value + ' Tahun' : '-'}
+- Berat Badan: ${bbInput.value ? bbInput.value + ' Kg' : '-'}
+- Jenis Kelamin: ${jkInput.value ? jkInput.value : '-'}
 
-Hasil Transkripsi Anamnesis:
+Transkripsi Anamnesis:
 "${anamnesis}"
 
-Tolong berikan kemungkinan analisis diagnosis dan tatalaksananya.`;
+Mohon berikan analisis diagnosis dan tatalaksananya.`;
 
             const payload = {
                 contents: [{ parts: [{ text: userPrompt }] }],
                 systemInstruction: { parts: [{ text: systemPrompt }] },
-                generationConfig: {
-                    temperature: 0.2, // Low temperature for more factual/clinical response
-                }
+                generationConfig: { temperature: 0.2 }
             };
 
             try {
-                // Implement exponential backoff retry wrapper
-                let response;
-                let retries = 3;
-                let delay = 1000;
-                
-                while (retries > 0) {
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    if (response.status === 429) {
-                        retries--;
-                        await new Promise(res => setTimeout(res, delay));
-                        delay *= 2;
-                        continue;
-                    }
-                    break;
-                }
+                let response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 400 && !apiKey) {
+                     throw new Error("API Key kosong atau tidak valid. Harap isi API Key di pengaturan atas.");
                 }
+                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
                 const result = await response.json();
                 
                 if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
                     const aiText = result.candidates[0].content.parts[0].text;
+                    aiResultContent.innerHTML = parseSimpleMarkdown(aiText);
                     
-                    // Render HTML with simple markdown parsing
-                    aiResultContent.innerHTML = parseMarkdown(aiText);
-                    
-                    // Show result
                     loadingAi.classList.add('hidden');
                     aiResultArea.classList.remove('hidden');
-                    
-                    // Scroll to result
                     aiResultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
-                    throw new Error("Struktur respons dari API tidak sesuai format.");
+                    throw new Error("Format respons API tidak valid.");
                 }
 
             } catch (error) {
                 console.error("AI API Error:", error);
-                showNotification("Gagal mendapatkan analisis dari AI. Silakan coba lagi.", "error");
+                showSnackbar(error.message.includes("API Key") ? error.message : "Gagal menghubungi AI. Cek koneksi atau API Key Anda.");
                 loadingAi.classList.add('hidden');
             } finally {
                 btnAnalyze.disabled = false;
-                btnAnalyze.classList.remove('opacity-70', 'cursor-not-allowed');
+                btnAnalyze.style.opacity = '1';
             }
         });
 
