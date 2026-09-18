@@ -3,222 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anamnesis AI - Klinik OMSA Medic Dewata</title>
+    <title>Anamnesis AI - Klinik OMSA Medic</title>
     
-    <!-- Load Tailwind CSS for structural layout -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Roboto & Material Symbols Outlined -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
 
     <style>
         :root {
-            /* Material 3 Color Scheme - Medical Teal/Cyan Theme */
-            --md-sys-color-primary: #006874;
-            --md-sys-color-on-primary: #ffffff;
-            --md-sys-color-primary-container: #97f0ff;
-            --md-sys-color-on-primary-container: #001f24;
+            /* Material 3 Medical Theme */
+            --md-primary: #006874;
+            --md-on-primary: #ffffff;
+            --md-primary-container: #97f0ff;
+            --md-on-primary-container: #001f24;
             
-            --md-sys-color-secondary: #4a6267;
-            --md-sys-color-on-secondary: #ffffff;
-            --md-sys-color-secondary-container: #cce8e0; /* adjusted for medical feel */
-            --md-sys-color-on-secondary-container: #051f23;
+            --md-secondary: #4a6267;
+            --md-on-secondary: #ffffff;
+            --md-secondary-container: #cce8e0;
+            --md-on-secondary-container: #051f23;
             
-            --md-sys-color-error: #ba1a1a;
-            --md-sys-color-error-container: #ffdad6;
-            --md-sys-color-on-error-container: #410002;
+            --md-error: #ba1a1a;
+            --md-on-error: #ffffff;
+            --md-error-container: #ffdad6;
+            --md-on-error-container: #410002;
             
-            --md-sys-color-background: #fafdfd;
-            --md-sys-color-on-background: #191c1d;
-            --md-sys-color-surface: #fafdfd;
-            --md-sys-color-on-surface: #191c1d;
+            --md-background: #fafdfd;
+            --md-on-background: #191c1d;
+            --md-surface: #fafdfd;
+            --md-on-surface: #191c1d;
             
-            --md-sys-color-surface-container-low: #f4f8f8;
-            --md-sys-color-surface-container: #eff5f5;
-            --md-sys-color-surface-container-high: #e9efef;
-            
-            --md-sys-color-outline: #6f797a;
+            --md-surface-container: #eff5f5;
+            --md-outline: #6f797a;
+            --md-outline-variant: #bfc8c9;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-background);
-            margin: 0;
+            background-color: var(--md-background);
+            color: var(--md-on-background);
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Material Symbols setup */
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        /* M3 Typography & Components */
         .m3-card {
-            background-color: var(--md-sys-color-surface-container);
+            background-color: var(--md-surface-container);
             border-radius: 24px;
             padding: 24px;
-            transition: box-shadow 0.2s ease-in-out;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
         
         .m3-input {
-            background-color: var(--md-sys-color-surface);
-            border: 1px solid var(--md-sys-color-outline);
-            border-radius: 8px; /* Classic MD style inputs often have smaller radii or underline, but we use modern rounded */
-            padding: 16px;
-            color: var(--md-sys-color-on-surface);
+            background-color: var(--md-surface);
+            border: 1px solid var(--md-outline-variant);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--md-on-surface);
             width: 100%;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            font-size: 1rem;
         }
         
         .m3-input:focus {
             outline: none;
-            border-color: var(--md-sys-color-primary);
-            box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+            border-color: var(--md-primary);
+            box-shadow: 0 0 0 2px var(--md-primary-container);
         }
 
-        /* FAB (Floating Action Button) Extended */
+        /* FAB Button styles */
         .m3-fab-extended {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
+            background-color: var(--md-primary-container);
+            color: var(--md-on-primary-container);
             padding: 16px 24px;
-            border-radius: 16px;
+            border-radius: 20px;
             font-weight: 500;
             font-size: 1rem;
             cursor: pointer;
             border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
         }
-        .m3-fab-extended:hover {
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        .m3-fab-extended:hover:not(:disabled) {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             transform: translateY(-1px);
         }
+        .m3-fab-extended:active:not(:disabled) {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(0);
+        }
         .m3-fab-extended.recording {
-            background-color: var(--md-sys-color-error-container);
-            color: var(--md-sys-color-on-error-container);
+            background-color: var(--md-error-container);
+            color: var(--md-on-error-container);
             animation: pulse-fab 2s infinite;
         }
+        .m3-fab-extended:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
-        /* Standard Buttons */
+        /* Regular Buttons */
         .m3-btn-filled {
-            background-color: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
             border-radius: 100px;
-            padding: 10px 24px;
+            padding: 12px 24px;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             transition: background-color 0.2s;
         }
-        .m3-btn-filled:hover {
-            background-color: #005862; /* Slightly darker */
-        }
-        
-        .m3-btn-tonal {
-            background-color: var(--md-sys-color-secondary-container);
-            color: var(--md-sys-color-on-secondary-container);
-            border-radius: 100px;
-            padding: 10px 24px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.2s;
-        }
-        .m3-btn-tonal:hover {
-            opacity: 0.85;
-        }
+        .m3-btn-filled:hover:not(:disabled) { background-color: #005862; }
+        .m3-btn-filled:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* Snackbar */
-        #snackbar {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #323232;
-            color: #f1f1f1;
-            text-align: center;
-            border-radius: 8px;
-            padding: 14px 24px;
-            position: fixed;
-            z-index: 1000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
-        }
-        #snackbar.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
-
-        /* Keyframes */
         @keyframes pulse-fab {
             0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
             70% { box-shadow: 0 0 0 15px rgba(186, 26, 26, 0); }
             100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
         }
 
-        /* Markdown Styles */
-        .markdown-body h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1rem; color: var(--md-sys-color-primary); }
+        #snackbar {
+            visibility: hidden;
+            min-width: 280px;
+            background-color: #323232;
+            color: #f1f1f1;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        #snackbar.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+        
+        .markdown-body strong { font-weight: 700; color: var(--md-primary); }
+        .markdown-body ul { list-style-type: disc; margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem;}
         .markdown-body p { margin-bottom: 0.75rem; line-height: 1.6; }
-        .markdown-body ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
-        .markdown-body strong { font-weight: 700; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-8 min-h-screen">
 
     <div class="max-w-3xl mx-auto space-y-6">
         
-        <!-- Header -->
-        <header class="text-center py-4">
-            <div class="inline-flex items-center justify-center gap-3 mb-2 text-[var(--md-sys-color-primary)]">
-                <span class="material-symbols-outlined text-4xl">stethoscope</span>
+        <header class="text-center py-2 mb-2">
+            <div class="inline-flex items-center justify-center gap-3 mb-2 text-[var(--md-primary)]">
+                <span class="material-symbols-outlined text-4xl">medical_services</span>
                 <h1 class="text-2xl md:text-3xl font-bold">Anamnesis AI</h1>
             </div>
-            <p class="text-[var(--md-sys-color-outline)] font-medium">Klinik OMSA Medic Dewata</p>
+            <p class="text-[var(--md-outline)] font-medium">Asisten Medis Pintar OMSA Medic</p>
         </header>
 
-        <!-- API Key Settings (Collapsible) -->
+        <!-- API Key Settings -->
         <details class="m3-card group cursor-pointer" open>
-            <summary class="font-medium flex items-center justify-between text-[var(--md-sys-color-on-surface)] list-none outline-none">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined">settings</span>
+            <summary class="font-medium flex items-center justify-between text-[var(--md-on-surface)] list-none outline-none">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-[var(--md-primary)]">vpn_key</span>
                     Pengaturan API Key Gemini
                 </div>
                 <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
             </summary>
-            <div class="mt-4 pt-4 border-t border-[var(--md-sys-color-outline)]/20 cursor-default">
-                <p class="text-sm text-[var(--md-sys-color-outline)] mb-3">Masukkan API Key Anda jika menjalankan aplikasi ini di GitHub Pages / Local.</p>
-                <input type="password" id="apiKeyInput" placeholder="Paste API Key Gemini Anda di sini..." class="m3-input mb-2">
+            <div class="mt-4 pt-4 border-t border-[var(--md-outline-variant)] cursor-default">
+                <p class="text-sm text-[var(--md-outline)] mb-3">Sistem menggunakan <b>Gemini 1.5 Flash</b> untuk mentranskripsi suara (Sangat akurat untuk istilah medis).</p>
+                <input type="password" id="apiKeyInput" placeholder="Paste API Key Gemini Anda di sini..." class="m3-input">
             </div>
         </details>
 
+        <!-- Patient Demographics -->
         <div class="m3-card">
             <h2 class="text-lg font-medium mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">person</span>
+                <span class="material-symbols-outlined text-[var(--md-primary)]">person</span>
                 Identitas Pasien
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Usia (Tahun)</label>
+                    <label class="block text-sm mb-1 text-[var(--md-outline)]">Usia (Tahun)</label>
                     <input type="number" id="usia" placeholder="Misal: 45" class="m3-input">
                 </div>
                 <div>
-                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Berat Badan (Kg)</label>
+                    <label class="block text-sm mb-1 text-[var(--md-outline)]">Berat Badan (Kg)</label>
                     <input type="number" id="bb" placeholder="Misal: 65" class="m3-input">
                 </div>
                 <div>
-                    <label class="block text-sm mb-1 text-[var(--md-sys-color-outline)]">Jenis Kelamin</label>
+                    <label class="block text-sm mb-1 text-[var(--md-outline)]">Jenis Kelamin</label>
                     <select id="jenisKelamin" class="m3-input appearance-none">
                         <option value="" disabled selected>Pilih...</option>
                         <option value="Laki-laki">Laki-laki</option>
@@ -228,50 +210,57 @@
             </div>
         </div>
 
+        <!-- Audio Recording & Transcription -->
         <div class="m3-card">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <h2 class="text-lg font-medium flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">mic</span>
-                    Transkripsi Suara (Tanpa Duplikat)
-                </h2>
-                
-                <!-- Transcription Controls -->
-                <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3">
-                    <button id="btnCopy" class="m3-btn-tonal w-full sm:w-auto">
-                        <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
-                        Copy Teks
-                    </button>
-                    <!-- Extended FAB for Recording -->
-                    <button id="btnRecord" class="m3-fab-extended w-full sm:w-auto">
-                        <span id="micIcon" class="material-symbols-outlined">mic</span>
-                        <span id="recordText">Mulai Rekam</span>
-                    </button>
+                <div>
+                    <h2 class="text-lg font-medium flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[var(--md-primary)]">mic</span>
+                        Transkripsi Suara (Gemini AI)
+                    </h2>
+                    <p id="recordStatus" class="text-sm text-[var(--md-outline)] mt-1">Status: Siap merekam</p>
                 </div>
+                
+                <button id="btnRecord" class="m3-fab-extended w-full md:w-auto">
+                    <span id="micIcon" class="material-symbols-outlined">mic</span>
+                    <span id="recordText">Mulai Rekam</span>
+                </button>
             </div>
 
-            <textarea id="anamnesisText" rows="6" class="m3-input resize-y" placeholder="Ketuk 'Mulai Rekam' dan mulai berbicara. Hasil transkripsi akan muncul di sini tanpa teks ganda. Anda juga dapat mengetik atau mengedit manual."></textarea>
+            <div class="relative">
+                <textarea id="anamnesisText" rows="6" class="m3-input resize-y" placeholder="Tekan 'Mulai Rekam', lalu sebutkan riwayat penyakit pasien. Setelah selesai, tekan 'Berhenti'. Audio akan diproses oleh AI menjadi teks medis..."></textarea>
+                
+                <!-- Loading overlay inside textarea -->
+                <div id="transcribeLoader" class="hidden absolute inset-0 bg-[var(--md-surface)]/80 backdrop-blur-sm flex items-center justify-center rounded-xl border border-[var(--md-outline-variant)]">
+                    <div class="flex flex-col items-center text-[var(--md-primary)]">
+                        <span class="material-symbols-outlined animate-spin text-4xl mb-2">autorenew</span>
+                        <span class="font-medium">AI sedang mengubah suara ke teks...</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Clinical Analysis -->
         <div class="m3-card">
             <h2 class="text-lg font-medium mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-[var(--md-sys-color-primary)]">psychiatry</span>
+                <span class="material-symbols-outlined text-[var(--md-primary)]">medical_information</span>
                 Analisis Medis AI
             </h2>
             
-            <button id="btnAnalyze" class="m3-btn-filled w-full justify-center py-3 text-base">
+            <button id="btnAnalyze" class="m3-btn-filled w-full py-3 text-base">
                 <span class="material-symbols-outlined">analytics</span>
                 Analisis Diagnosis & Tatalaksana
             </button>
 
             <!-- Loading Indicator -->
-            <div id="loadingAi" class="hidden flex-col items-center justify-center py-8">
-                <span class="material-symbols-outlined animate-spin text-4xl text-[var(--md-sys-color-primary)] mb-3">autorenew</span>
-                <p class="text-[var(--md-sys-color-outline)] animate-pulse">AI sedang menganalisis data klinis...</p>
+            <div id="loadingAi" class="hidden flex-col items-center justify-center py-8 text-[var(--md-primary)]">
+                <span class="material-symbols-outlined animate-spin text-4xl mb-3">hourglass_empty</span>
+                <p class="font-medium animate-pulse">Menghasilkan analisis medis terstruktur...</p>
             </div>
 
             <!-- Result Box -->
-            <div id="aiResultArea" class="hidden mt-6 bg-[var(--md-sys-color-surface)] border border-[var(--md-sys-color-outline)]/30 rounded-2xl p-5">
-                <div class="markdown-body text-[var(--md-sys-color-on-surface)]" id="aiResultContent">
+            <div id="aiResultArea" class="hidden mt-6 bg-[var(--md-surface)] border border-[var(--md-outline-variant)] rounded-2xl p-6 shadow-inner">
+                <div class="markdown-body text-[var(--md-on-surface)]" id="aiResultContent">
                     <!-- AI result injects here -->
                 </div>
             </div>
@@ -279,202 +268,277 @@
 
     </div>
 
-    <!-- Snackbar Component -->
-    <div id="snackbar">Pesan notifikasi</div>
+    <div id="snackbar">Notifikasi</div>
 
     <script>
-        // UI Elements
-        const usiaInput = document.getElementById('usia');
-        const bbInput = document.getElementById('bb');
-        const jkInput = document.getElementById('jenisKelamin');
-        const anamnesisText = document.getElementById('anamnesisText');
+        // DOM Elements
         const apiKeyInput = document.getElementById('apiKeyInput');
+        const anamnesisText = document.getElementById('anamnesisText');
         
         const btnRecord = document.getElementById('btnRecord');
         const micIcon = document.getElementById('micIcon');
         const recordText = document.getElementById('recordText');
-        const btnCopy = document.getElementById('btnCopy');
+        const recordStatus = document.getElementById('recordStatus');
+        const transcribeLoader = document.getElementById('transcribeLoader');
         
         const btnAnalyze = document.getElementById('btnAnalyze');
         const loadingAi = document.getElementById('loadingAi');
         const aiResultArea = document.getElementById('aiResultArea');
         const aiResultContent = document.getElementById('aiResultContent');
 
-        // State variables
+        // Recording State Variables
+        let mediaRecorder;
+        let audioChunks = [];
         let isRecording = false;
-        let recognition = null;
+        let recordingInterval;
+        let secondsRecorded = 0;
 
-        // Custom Snackbar Function
         function showSnackbar(message) {
             const snackbar = document.getElementById("snackbar");
             snackbar.textContent = message;
             snackbar.className = "show";
-            setTimeout(() => { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+            setTimeout(() => { snackbar.className = snackbar.className.replace("show", ""); }, 3500);
         }
 
-        function initSpeechRecognition() {
-            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (!window.SpeechRecognition) {
-                showSnackbar("Browser tidak mendukung perekaman suara (Gunakan Chrome).");
-                btnRecord.disabled = true;
-                btnRecord.style.opacity = '0.5';
-                return false;
-            }
-
-            recognition = new window.SpeechRecognition();
-            recognition.lang = 'id-ID';
-            recognition.continuous = true;
-            // CRITICAL FIX: Disable interim results to prevent duplicate typing on Android
-            recognition.interimResults = false; 
-
-            recognition.onstart = function() {
-                isRecording = true;
-                btnRecord.classList.add('recording');
-                micIcon.textContent = 'stop_circle';
-                recordText.textContent = "Hentikan Rekaman";
-            };
-
-            recognition.onresult = function(event) {
-                // Since interimResults is false, every result here is final.
-                // We just get the latest recognized phrase and append it.
-                const currentResultIndex = event.resultIndex;
-                const transcript = event.results[currentResultIndex][0].transcript.trim();
-                
-                if (transcript) {
-                    let currentText = anamnesisText.value.trim();
-                    // Append with proper spacing and period if needed
-                    if (currentText.length > 0 && !currentText.endsWith('.')) {
-                        anamnesisText.value = currentText + '. ' + transcript.charAt(0).toUpperCase() + transcript.slice(1);
-                    } else if (currentText.length > 0) {
-                        anamnesisText.value = currentText + ' ' + transcript.charAt(0).toUpperCase() + transcript.slice(1);
-                    } else {
-                        anamnesisText.value = transcript.charAt(0).toUpperCase() + transcript.slice(1);
-                    }
-                    
-                    // Auto-scroll to bottom
-                    anamnesisText.scrollTop = anamnesisText.scrollHeight;
-                }
-            };
-
-            recognition.onerror = function(event) {
-                console.error("Mic error:", event.error);
-                if (event.error === 'not-allowed') {
-                    showSnackbar("Akses mikrofon ditolak! Izinkan di pengaturan browser (ikon gembok).");
-                } else if (event.error !== 'no-speech') {
-                    showSnackbar("Error mikrofon: " + event.error);
-                }
-                stopRecordingUI();
-            };
-
-            recognition.onend = function() {
-                // If user didn't manually stop it, restart to keep continuous listening alive
-                if (isRecording) {
-                    try {
-                        recognition.start();
-                    } catch (e) {
-                        stopRecordingUI();
-                    }
-                } else {
-                    stopRecordingUI();
-                }
-            };
-            
-            return true;
+        // Format Timer (00:00)
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
         }
 
-        function stopRecordingUI() {
-            isRecording = false;
-            btnRecord.classList.remove('recording');
-            micIcon.textContent = 'mic';
-            recordText.textContent = "Mulai Rekam";
-        }
-
-        const hasSpeechSupport = initSpeechRecognition();
-
-        // Record Button Click
-        btnRecord.addEventListener('click', () => {
-            if (!hasSpeechSupport) return;
-            
-            if (isRecording) {
-                isRecording = false; // Flag tells onend to NOT restart
-                recognition.stop();
-            } else {
-                try {
-                    recognition.start();
-                } catch(e) {
-                    console.error("Already started", e);
-                }
-            }
-        });
-
-        // Copy Button Click
-        btnCopy.addEventListener('click', () => {
-            if (!anamnesisText.value) {
-                showSnackbar("Tidak ada teks untuk disalin.");
+        async function startRecording() {
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                showSnackbar("Peringatan: Harap isi API Key Gemini di bagian atas terlebih dahulu!");
+                apiKeyInput.focus();
                 return;
             }
+
             try {
-                const tempTextArea = document.createElement("textarea");
-                tempTextArea.value = anamnesisText.value;
-                document.body.appendChild(tempTextArea);
-                tempTextArea.select();
-                document.execCommand("copy");
-                document.body.removeChild(tempTextArea);
-                showSnackbar("Teks disalin ke clipboard!");
-            } catch (err) {
-                showSnackbar("Gagal menyalin teks.");
+                // Request mic permission
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Determine supported mimeType (WebM mostly for Chrome/Android, MP4 for Safari)
+                let options = { mimeType: 'audio/webm;codecs=opus' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options = { mimeType: 'audio/webm' };
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        options = { mimeType: 'audio/mp4' }; // Fallback Safari
+                        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                            options = {}; // Let browser decide default
+                        }
+                    }
+                }
+
+                mediaRecorder = new MediaRecorder(stream, options);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstart = () => {
+                    isRecording = true;
+                    btnRecord.classList.add('recording');
+                    micIcon.textContent = 'stop_circle';
+                    
+                    secondsRecorded = 0;
+                    recordText.textContent = "Berhenti Rekam";
+                    recordStatus.textContent = `Status: Sedang merekam (00:00)`;
+                    recordStatus.classList.add('text-[var(--md-error)]');
+                    
+                    recordingInterval = setInterval(() => {
+                        secondsRecorded++;
+                        recordStatus.textContent = `Status: Sedang merekam (${formatTime(secondsRecorded)})`;
+                    }, 1000);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    clearInterval(recordingInterval);
+                    recordStatus.textContent = "Status: Memproses audio ke server Gemini...";
+                    recordStatus.classList.remove('text-[var(--md-error)]');
+                    
+                    // Stop microphone tracks
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Process Audio
+                    const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+                    await processAudioWithGemini(audioBlob);
+                };
+
+                mediaRecorder.start();
+                
+            } catch (error) {
+                console.error("Mic error:", error);
+                if (error.name === 'NotAllowedError') {
+                    showSnackbar("Akses mikrofon ditolak! Izinkan di gembok browser (URL bar).");
+                } else {
+                    showSnackbar("Gagal mengakses mikrofon: " + error.message);
+                }
+                resetRecordUI();
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                isRecording = false;
+                
+                btnRecord.classList.remove('recording');
+                btnRecord.disabled = true; // disable until processing finishes
+                micIcon.textContent = 'hourglass_empty';
+                recordText.textContent = "Memproses...";
+            }
+        }
+
+        function resetRecordUI() {
+            isRecording = false;
+            btnRecord.classList.remove('recording');
+            btnRecord.disabled = false;
+            micIcon.textContent = 'mic';
+            recordText.textContent = "Mulai Rekam";
+            recordStatus.textContent = "Status: Siap merekam";
+        }
+
+        // Handle Record Button click
+        btnRecord.addEventListener('click', () => {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
             }
         });
 
+        async function processAudioWithGemini(audioBlob) {
+            const apiKey = apiKeyInput.value.trim();
+            transcribeLoader.classList.remove('hidden');
+
+            try {
+                // Convert Blob to Base64
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                
+                reader.onloadend = async () => {
+                    const base64dataFull = reader.result;
+                    // Format output is like: "data:audio/webm;base64,GkXfo59ChoEBQ..."
+                    // We need to extract the exact mimeType and the base64 string
+                    
+                    const mimeTypeMatches = base64dataFull.match(/^data:(.*);base64,/);
+                    let actualMimeType = 'audio/webm'; // fallback
+                    if (mimeTypeMatches && mimeTypeMatches.length > 1) {
+                        actualMimeType = mimeTypeMatches[1];
+                    }
+                    
+                    const base64String = base64dataFull.split(',')[1];
+
+                    // Endpoint for Gemini 1.5 Flash (Supports Multimodal/Audio)
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+                    
+                    const payload = {
+                        contents: [{
+                            parts: [
+                                { text: "Anda adalah asisten medis profesional. Transkripsikan rekaman suara berikut ini ke dalam teks bahasa Indonesia. Dengarkan baik-baik untuk istilah medis, nama obat, dan keluhan klinis. Hanya hasilkan teks transkripsinya saja tanpa tambahan basa-basi." },
+                                {
+                                    inlineData: {
+                                        mimeType: actualMimeType,
+                                        data: base64String
+                                    }
+                                }
+                            ]
+                        }]
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: Cek API Key Anda.`);
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
+                        const transcribedText = result.candidates[0].content.parts[0].text;
+                        
+                        // Append to textarea (add a space if already has text)
+                        let currentText = anamnesisText.value.trim();
+                        if (currentText) {
+                            anamnesisText.value = currentText + " " + transcribedText.trim();
+                        } else {
+                            anamnesisText.value = transcribedText.trim();
+                        }
+                        
+                        showSnackbar("Berhasil mentranskripsi suara medis!");
+                    } else {
+                        throw new Error("Gagal membaca respons dari Gemini.");
+                    }
+                    
+                    finalizeProcessing();
+                };
+                
+            } catch (error) {
+                console.error("Transcription Error:", error);
+                showSnackbar("Error Transkripsi: " + error.message);
+                finalizeProcessing();
+            }
+        }
+
+        function finalizeProcessing() {
+            transcribeLoader.classList.add('hidden');
+            resetRecordUI();
+        }
+
         function parseSimpleMarkdown(text) {
-            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
-            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>'); // H3
-            html = html.replace(/^## (.*$)/gim, '<h3>$1</h3>'); // Treat H2 as H3 for sizing
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); 
+            html = html.replace(/^### (.*$)/gim, '<h3 style="font-size:1.1rem; font-weight:700; margin-top:1rem; color:var(--md-primary)">$1</h3>'); 
+            html = html.replace(/^## (.*$)/gim, '<h3 style="font-size:1.1rem; font-weight:700; margin-top:1rem; color:var(--md-primary)">$1</h3>'); 
             
-            // List items
             html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
             html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
-            
-            // Group lists
             html = html.replace(/(<li>.*<\/li>(\n<li>.*<\/li>)*)/g, '<ul>$1</ul>');
             
-            // Paragraphs (line breaks)
             html = html.replace(/\n\n/g, '</p><p>');
-            
             return `<p>${html}</p>`;
         }
 
         btnAnalyze.addEventListener('click', async () => {
             const anamnesis = anamnesisText.value.trim();
             if (!anamnesis) {
-                showSnackbar("Rekam atau ketik anamnesis terlebih dahulu!");
+                showSnackbar("Teks anamnesis kosong! Silakan rekam atau ketik dahulu.");
                 anamnesisText.focus();
                 return;
             }
 
-            // Get API Key (from input or fallback to environment canvas key)
-            let apiKey = apiKeyInput.value.trim();
+            const apiKey = apiKeyInput.value.trim();
             if (!apiKey) {
-                apiKey = ""; // Fallback for Canvas auto-injection if empty
+                showSnackbar("Harap isi API Key Gemini di bagian pengaturan!");
+                apiKeyInput.focus();
+                return;
             }
 
-            // UI Loading state
+            const usia = document.getElementById('usia').value;
+            const bb = document.getElementById('bb').value;
+            const jk = document.getElementById('jenisKelamin').value;
+
+            // UI Changes
             btnAnalyze.disabled = true;
-            btnAnalyze.style.opacity = '0.7';
             loadingAi.classList.remove('hidden');
             aiResultArea.classList.add('hidden');
             
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-            const systemPrompt = "Anda adalah AI Asisten Dokter di Klinik OMSA Medic Dewata. Tugas Anda menganalisis anamnesis pasien. Berikan respons terstruktur: 1. Ringkasan Kasus Singkat. 2. Diagnosis Banding (Diferensial Diagnosis). 3. Rencana Tatalaksana Awal (pemeriksaan/obat). Gunakan bahasa Indonesia profesional dan ramah. Beri disclaimer di akhir bahwa ini saran AI dan butuh verifikasi klinis dokter.";
+            const systemPrompt = "Anda adalah AI Asisten Dokter Spesialis. Tugas Anda menganalisis anamnesis pasien. Berikan respons terstruktur: 1. Ringkasan Kasus. 2. Diagnosis Banding (Diferensial Diagnosis). 3. Rencana Tatalaksana Awal (pemeriksaan lab/radiologi dan obat). Gunakan bahasa Indonesia profesional dan ramah. Beri disclaimer di akhir bahwa ini saran AI dan butuh verifikasi dokter.";
             
             const userPrompt = `
 Data Pasien:
-- Usia: ${usiaInput.value ? usiaInput.value + ' Tahun' : '-'}
-- Berat Badan: ${bbInput.value ? bbInput.value + ' Kg' : '-'}
-- Jenis Kelamin: ${jkInput.value ? jkInput.value : '-'}
+- Usia: ${usia ? usia + ' Tahun' : 'Tidak disebut'}
+- Berat Badan: ${bb ? bb + ' Kg' : 'Tidak disebut'}
+- Jenis Kelamin: ${jk ? jk : 'Tidak disebut'}
 
 Transkripsi Anamnesis:
 "${anamnesis}"
@@ -493,10 +557,6 @@ Mohon berikan analisis diagnosis dan tatalaksananya.`;
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
-                if (response.status === 400 && !apiKey) {
-                     throw new Error("API Key kosong atau tidak valid. Harap isi API Key di pengaturan atas.");
-                }
                 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -515,11 +575,10 @@ Mohon berikan analisis diagnosis dan tatalaksananya.`;
 
             } catch (error) {
                 console.error("AI API Error:", error);
-                showSnackbar(error.message.includes("API Key") ? error.message : "Gagal menghubungi AI. Cek koneksi atau API Key Anda.");
+                showSnackbar("Gagal menghubungi AI. Cek koneksi atau pastikan API Key benar.");
                 loadingAi.classList.add('hidden');
             } finally {
                 btnAnalyze.disabled = false;
-                btnAnalyze.style.opacity = '1';
             }
         });
 
